@@ -1,3 +1,6 @@
+import CardBack from "@/components/CardBack";
+import CardForm from "@/components/CardForm";
+import CardFront from "@/components/CardFront";
 import Image from "next/image";
 
 export default function Home() {
@@ -13,12 +16,26 @@ export default function Home() {
         />
       </div>
 
-      <div className="flex w-full max-w-5xl justify-between">
-        {/* Card */}
-        <div></div>
+      <div className="flex w-full h-full justify-between items-center max-w-[1100px]">
+        {/* Card*/}
+        <div className="flex justify-between">
+          {/* Card */}
+          <div className="flex flex-col gap-10">
+            <div className="flex w-full right-24 relative">
+              <CardFront />
+            </div>
+
+            <CardBack />
+          </div>
+
+          {/* Form */}
+          <div className="flex flex-col"></div>
+        </div>
 
         {/* Form */}
-        <div className="flex flex-col"></div>
+        <div className="flex">
+          <CardForm />
+        </div>
       </div>
     </div>
   );
