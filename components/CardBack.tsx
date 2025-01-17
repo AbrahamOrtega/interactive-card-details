@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-export default function CardBack() {
+interface CardBackProps {
+  cvc: string;
+}
+
+export default function CardBack({ cvc }: CardBackProps) {
   return (
     <div className="flex w-full relative">
       <Image
@@ -11,7 +15,7 @@ export default function CardBack() {
         className="w-full h-full object-cover"
       />
       <div className="absolute flex h-full w-full items-center justify-end p-14">
-        <p className="text-white tracking-widest text-[14px]">{"234"}</p>
+        <p className="text-white tracking-widest text-[14px]">{cvc}</p>
       </div>
     </div>
   );

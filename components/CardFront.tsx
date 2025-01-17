@@ -1,6 +1,18 @@
 import Image from "next/image";
 
-export default function CardFront() {
+interface CardFrontProps {
+  name: string;
+  cardNumber: string;
+  expDateMonth: string;
+  expDateYear: string;
+}
+
+export default function CardFront({
+  name,
+  cardNumber,
+  expDateMonth,
+  expDateYear,
+}: CardFrontProps) {
   return (
     <div className="flex w-full relative">
       <Image
@@ -17,11 +29,11 @@ export default function CardFront() {
         </div>
         <div className="flex flex-col w-full gap-6">
           <h1 className="text-white text-[24px] tracking-widest">
-            {"3455 1765 2349 9763"}
+            {cardNumber}
           </h1>
           <div className="flex w-full justify-between text-lightGrayishViolet tracking-wider text-[14px]">
-            <p className="uppercase">{"Felicia Leire"}</p>
-            <p>{`${"09"}/${"26"}`}</p>
+            <p className="uppercase">{name}</p>
+            <p>{`${expDateMonth}/${expDateYear}`}</p>
           </div>
         </div>
       </div>
