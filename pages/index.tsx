@@ -13,39 +13,44 @@ export default function Home() {
 
   return (
     <div className="flex w-full h-screen relative justify-center items-center">
-      <div className="absolute h-full w-[35%] left-0 top-0 -z-10">
+      <div className="absolute hidden lg:flex h-full w-[35%] left-0 top-0 -z-10">
         <Image
           src="/images/bg-main-desktop.png"
-          alt="bg-pattern-top"
+          alt="bg-desktop"
           width={10000}
           height={10000}
           className="w-full h-full object-cover"
         />
       </div>
 
-      <div className="flex w-full h-full justify-between items-center max-w-[1100px]">
-        {/* Card*/}
-        <div className="flex justify-between">
-          {/* Card */}
-          <div className="flex flex-col gap-10">
-            <div className="flex w-full right-24 relative">
-              <CardFront
-                name={name}
-                cardNumber={cardNumber}
-                expDateMonth={expDateMonth}
-                expDateYear={expDateYear}
-              />
-            </div>
+      <div className="absolute flex lg:hidden w-full h-[300px] top-0 -z-10">
+        <Image
+          src="/images/bg-main-mobile.png"
+          alt="bg-mobile"
+          width={10000}
+          height={300}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
+      <div className="flex flex-col lg:flex-row w-full max-w-[1300px] h-full lg:justify-between items-center px-6 lg:px-16 gap-y-10">
+        {/* Card*/}
+        <div className="flex w-full max-w-[450px] lg:max-w-[550px] flex-col-reverse lg:flex-col gap-4 mt-10">
+          <div className="flex w-full max-w-[350px] lg:max-w-[400px] relative overflow-hidden rounded-lg z-10 -mt-20">
+            <CardFront
+              name={name}
+              cardNumber={cardNumber}
+              expDateMonth={expDateMonth}
+              expDateYear={expDateYear}
+            />
+          </div>
+          <div className="flex w-full max-w-[350px] lg:max-w-[400px] self-end">
             <CardBack cvc={cvc} />
           </div>
-
-          {/* Form */}
-          <div className="flex flex-col"></div>
         </div>
 
         {/* Form */}
-        <div className="flex">
+        <div className="flex w-full max-w-[400px] relative mb-10">
           <CardForm
             name={name}
             setName={setName}

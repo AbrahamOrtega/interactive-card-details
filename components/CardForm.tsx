@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SubmittedForm from "./SubmittedForm";
 interface CardFormProps {
   name: string;
   setName: (name: string) => void;
@@ -41,6 +42,7 @@ export default function CardForm({
     message: "",
   });
   const [invalidCvc, setInvalidCvc] = useState({ status: false, message: "" });
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const cardNumberNormalize = (value: string) => {
     const onlyNumbers = value.replace(/\D/g, "");
@@ -115,6 +117,8 @@ export default function CardForm({
       invalidCvc.status
     )
       return;
+
+    setFormSubmitted(true);
     console.log({
       name,
       cardNumber,
@@ -125,124 +129,134 @@ export default function CardForm({
   };
 
   return (
-    <div className="flex flex-col w-[400px] gap-6">
-      <div className="flex flex-col w-full">
-        <label htmlFor="name" className="text-[14px] tracking-widest mb-2">
-          CARDHOLDER NAME
-        </label>
-        <input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onBlur={() => {
-            fieldBlankValidate(name, setInvalidName);
-          }}
-          placeholder="e.g. Jane Appleseed"
-          className={`p-2 w-full rounded-lg border border-lightGrayishViolet ${
-            invalidName.status && "border-red"
-          }`}
-        />
-        {invalidName.status && (
-          <p className="text-red text-[12px]">{invalidName.message}</p>
-        )}
-      </div>
-      <div className="flex flex-col w-full">
-        <label htmlFor="cn" className="text-[14px] tracking-widest mb-2">
-          CARD NUMBER
-        </label>
-        <input
-          type="text"
-          id="cn"
-          onBlur={() => {
-            cardNumberValidate();
-          }}
-          value={cardNumber}
-          onChange={(e) => setCardNumber(cardNumberNormalize(e.target.value))}
-          placeholder="e.g. 1234 5678 9123 0000"
-          className={`p-2 w-full rounded-lg border border-lightGrayishViolet ${
-            invalidCardNumber.status && "border-red"
-          }`}
-        />
-        {invalidCardNumber.status && (
-          <p className="text-red text-[12px]">{invalidCardNumber.message}</p>
-        )}
-      </div>
-
-      <div className="flex w-full gap-8">
-        <div className="flex flex-col">
-          <label htmlFor="exp" className="text-[14px] tracking-widest mb-2">
-            EXP. DATE (MM/YY)
-          </label>
-          <div id="exp" className="flex gap-2">
+    <div className="flex w-[400px] gap-6">
+      {formSubmitted ? (
+        <SubmittedForm />
+      ) : (
+        <div className="flex flex-col w-full gap-6">
+          <div className="flex flex-col w-full">
+            <label htmlFor="name" className="text-[14px] tracking-widest mb-2">
+              CARDHOLDER NAME
+            </label>
             <input
               type="text"
-              value={expDateMonth}
-              onChange={(e) =>
-                setExpDateMonth(expDateMonthNormalize(e.target.value))
-              }
-              onBlur={(e) => {
-                if (e.target.value.length === 1) {
-                  setExpDateMonth(`0${e.target.value}`);
-                }
-                fieldBlankValidate(expDateMonth, setInvalidExpDateMonth);
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={() => {
+                fieldBlankValidate(name, setInvalidName);
               }}
-              placeholder="MM"
-              className={`p-2 w-16 rounded-lg border border-lightGrayishViolet ${
-                invalidExpDateMonth.status && "border-red"
+              placeholder="e.g. Jane Appleseed"
+              className={`p-2 w-full rounded-lg border border-lightGrayishViolet ${
+                invalidName.status && "border-red"
               }`}
             />
-            <input
-              type="text"
-              placeholder="YY"
-              value={expDateYear}
-              onChange={(e) =>
-                setExpDateYear(expDateYearNormalize(e.target.value))
-              }
-              onBlur={(e) => {
-                if (e.target.value.length === 1) {
-                  setExpDateYear(`0${e.target.value}`);
-                }
-                fieldBlankValidate(expDateYear, setInvalidExpDateYear);
-              }}
-              className={`p-2 w-16 rounded-lg border border-lightGrayishViolet ${
-                invalidExpDateYear.status && "border-red"
-              }`}
-            />
+            {invalidName.status && (
+              <p className="text-red text-[12px]">{invalidName.message}</p>
+            )}
           </div>
-          {(invalidExpDateMonth.status || invalidExpDateYear.status) && (
-            <p className="text-red text-[10px]">Can&apos;t be blank</p>
-          )}
-        </div>
-        <div className="flex flex-col flex-grow">
-          <label htmlFor="cvc" className="text-[14px] tracking-widest mb-2">
-            CVC
-          </label>
-          <input
-            type="text"
-            id="cvc"
-            value={cvc}
-            onBlur={() => {
-              cvcValidate();
-            }}
-            onChange={(e) => setCvc(cvcNormalize(e.target.value))}
-            placeholder="e.g. 123"
-            className={`p-2 w-full rounded-lg border border-lightGrayishViolet ${
-              invalidCvc.status && "border-red"
-            }`}
-          />
-          {invalidCvc.status && (
-            <p className="text-red text-[10px]">{invalidCvc.message}</p>
-          )}
-        </div>
-      </div>
+          <div className="flex flex-col w-full">
+            <label htmlFor="cn" className="text-[14px] tracking-widest mb-2">
+              CARD NUMBER
+            </label>
+            <input
+              type="text"
+              id="cn"
+              onBlur={() => {
+                cardNumberValidate();
+              }}
+              value={cardNumber}
+              onChange={(e) =>
+                setCardNumber(cardNumberNormalize(e.target.value))
+              }
+              placeholder="e.g. 1234 5678 9123 0000"
+              className={`p-2 w-full rounded-lg border border-lightGrayishViolet ${
+                invalidCardNumber.status && "border-red"
+              }`}
+            />
+            {invalidCardNumber.status && (
+              <p className="text-red text-[12px]">
+                {invalidCardNumber.message}
+              </p>
+            )}
+          </div>
 
-      <button
-        className="flex w-full justify-center p-4 bg-veryDarkViolet rounded-lg"
-        onClick={handleSubmit}
-      >
-        <p className="text-white tracking-widest text-[16px]">Confirm</p>
-      </button>
+          <div className="flex w-full gap-8">
+            <div className="flex flex-col">
+              <label htmlFor="exp" className="text-[14px] tracking-widest mb-2">
+                EXP. DATE (MM/YY)
+              </label>
+              <div id="exp" className="flex gap-2">
+                <input
+                  type="text"
+                  value={expDateMonth}
+                  onChange={(e) =>
+                    setExpDateMonth(expDateMonthNormalize(e.target.value))
+                  }
+                  onBlur={(e) => {
+                    if (e.target.value.length === 1) {
+                      setExpDateMonth(`0${e.target.value}`);
+                    }
+                    fieldBlankValidate(expDateMonth, setInvalidExpDateMonth);
+                  }}
+                  placeholder="MM"
+                  className={`p-2 w-16 rounded-lg border border-lightGrayishViolet ${
+                    invalidExpDateMonth.status && "border-red"
+                  }`}
+                />
+                <input
+                  type="text"
+                  placeholder="YY"
+                  value={expDateYear}
+                  onChange={(e) =>
+                    setExpDateYear(expDateYearNormalize(e.target.value))
+                  }
+                  onBlur={(e) => {
+                    if (e.target.value.length === 1) {
+                      setExpDateYear(`0${e.target.value}`);
+                    }
+                    fieldBlankValidate(expDateYear, setInvalidExpDateYear);
+                  }}
+                  className={`p-2 w-16 rounded-lg border border-lightGrayishViolet ${
+                    invalidExpDateYear.status && "border-red"
+                  }`}
+                />
+              </div>
+              {(invalidExpDateMonth.status || invalidExpDateYear.status) && (
+                <p className="text-red text-[10px]">Can&apos;t be blank</p>
+              )}
+            </div>
+            <div className="flex flex-col flex-grow">
+              <label htmlFor="cvc" className="text-[14px] tracking-widest mb-2">
+                CVC
+              </label>
+              <input
+                type="text"
+                id="cvc"
+                value={cvc}
+                onBlur={() => {
+                  cvcValidate();
+                }}
+                onChange={(e) => setCvc(cvcNormalize(e.target.value))}
+                placeholder="e.g. 123"
+                className={`p-2 w-full rounded-lg border border-lightGrayishViolet ${
+                  invalidCvc.status && "border-red"
+                }`}
+              />
+              {invalidCvc.status && (
+                <p className="text-red text-[10px]">{invalidCvc.message}</p>
+              )}
+            </div>
+          </div>
+
+          <button
+            className="flex w-full justify-center p-4 bg-veryDarkViolet rounded-lg"
+            onClick={handleSubmit}
+          >
+            <p className="text-white tracking-widest text-[16px]">Confirm</p>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

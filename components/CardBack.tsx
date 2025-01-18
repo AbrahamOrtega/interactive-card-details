@@ -15,7 +15,7 @@ export default function CardBack({ cvc }: CardBackProps) {
         className="w-full h-full object-cover"
       />
       <div className="absolute flex h-full w-full items-center justify-end p-14">
-        <p className="text-white tracking-widest text-[14px]">{cvc}</p>
+        <p className="text-white tracking-widest text-[14px]">{cvc || "000"}</p>
       </div>
     </div>
   );
